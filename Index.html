@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uman.ai — Intern Onboarding</title>
+<style>
+:root {
+  --orange: #E8714A;
+  --orange-light: #F5A678;
+  --orange-dark: #C45A32;
+  --dark: #0E0E0E;
+  --dark2: #161616;
+  --dark3: #1E1E1E;
+  --white: #FFFFFF;
+  --mid: #888888;
+  --light: #AAAAAA;
+  --blue: #4A6CF7;
+  --green: #059669;
+  --purple: #7B5CF0;
+  --yellow: #F59E0B;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%;
+  font-family: 'Trebuchet MS', 'Segoe UI', Arial, sans-serif;
+  background: var(--dark);
+  overflow: hidden;
+  color: var(--white);
+}
+
+/* ── PROGRESS ── */
+.progress {
+  position: fixed; top: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--orange), var(--orange-light));
+  transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  z-index: 100;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px;
+  padding: 8px 18px;
+}
+.nav-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%; border: none;
+  background: rgba(255,255,255,0.08);
+  color: white; font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.nav-btn:hover { background: var(--orange); }
+.nav-dots { display: flex; gap: 5px; align-items: center; }
+.dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  cursor: pointer; transition: all 0.3s;
+}
+.dot.active { background: var(--orange); width: 18px; border-radius: 3px; }
+.slide-counter {
+  font-size: 11px; color: rgba(255,255,255,0.35);
+  min-width: 36px; text-align: center;
+}
+.key-hint {
+  position: fixed; top: 18px; right: 22px;
+  font-size: 10px; color: rgba(255,255,255,0.2); z-index: 100;
+}
+
+/* ── SLIDES ── */
+.slides-wrap { width: 100%; height: 100vh; position: relative; overflow: hidden; }
+.slide {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.55s cubic-bezier(.4,0,.2,1), transform 0.55s cubic-bezier(.4,0,.2,1);
+  transform: translateY(24px);
+}
+.slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.slide.exit { opacity: 0; transform: translateY(-24px); }
+
+/* ── DECORATIVE CIRCLES ── */
+.orb {
+  position: absolute; border-radius: 50%; pointer-events: none;
+}
+
+/* ── COMMON LAYOUT ── */
+.inner {
+  width: 100%; max-width: 1100px;
+  padding: 52px 72px;
+  position: relative; z-index: 2;
+}
+.lbl {
+  font-size: 9px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--orange);
+  margin-bottom: 10px;
+}
+.h1 {
+  font-size: clamp(32px, 4.5vw, 52px);
+  font-weight: 800; letter-spacing: -2px;
+  line-height: 1.0; margin-bottom: 32px;
+  color: var(--white);
+}
+.h1 span { color: var(--orange); }
+
+/* ── CARDS ── */
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 28px 24px;
+  transition: border-color 0.3s, transform 0.2s;
+}
+.card:hover { border-color: rgba(232,113,74,0.3); transform: translateY(-2px); }
+
+/* ─────────────────────────────────────────
+   SLIDE 1 — COVER
+───────────────────────────────────────── */
+.s-cover { background: var(--dark); }
+
+.cover-content {
+  position: relative; z-index: 2;
+  padding: 0 72px; max-width: 1100px; width: 100%;
+}
+.uman-logo {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 56px;
+}
+.logo-c {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 17px; color: var(--dark);
+}
+.logo-name { font-size: 18px; font-weight: 600; color: white; }
+
+.cover-tag {
+  display: inline-block;
+  background: rgba(232,113,74,0.12);
+  border: 1px solid rgba(232,113,74,0.3);
+  color: var(--orange-light);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  padding: 6px 16px; border-radius: 100px;
+  margin-bottom: 22px;
+}
+.cover-title {
+  font-size: clamp(52px, 8vw, 100px);
+  font-weight: 800; letter-spacing: -4px;
+  line-height: 1.0; margin-bottom: 20px; color: white;
+}
+.cover-title span { color: var(--orange); }
+.cover-sub {
+  font-size: 16px; color: rgba(255,255,255,0.4);
+  font-weight: 300; margin-bottom: 44px; max-width: 480px;
+  line-height: 1.6;
+}
+.cover-quote {
+  font-size: 13px; color: rgba(255,255,255,0.3);
+  font-style: italic; margin-bottom: 32px;
+  max-width: 520px; line-height: 1.6;
+  border-left: 2px solid rgba(232,113,74,0.4);
+  padding-left: 16px;
+}
+.btn-pill {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: white; color: var(--dark);
+  font-weight: 700; font-size: 13px;
+  padding: 14px 26px; border-radius: 100px;
+  cursor: pointer; border: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-pill:hover { transform: translateY(-2px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+.btn-pill .arr {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--orange);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+}
+
+/* ─────────────────────────────────────────
+   SLIDE 2 — AGENDA
+───────────────────────────────────────── */
+.day-tabs {
+  display: flex; gap: 0; margin-bottom: 28px;
+  border-radius: 12px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  width: fit-content;
+}
+.day-tab {
+  padding: 11px 28px;
+  font-weight: 700; font-size: 12px; letter-spacing: 0.5px;
+  cursor: pointer; background: transparent;
+  color: rgba(255,255,255,0.35); border: none;
+  transition: all 0.3s;
+}
+.day-tab.active { background: var(--orange); color: white; }
+.agenda-grid {
+  display: grid; grid-template-columns: repeat(2,1fr); gap: 14px;
+}
+.agenda-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px; padding: 22px 24px;
+  display: flex; align-items: flex-start; gap: 16px;
+  transition: transform 0.2s, border-color 0.2s;
+  cursor: default;
+}
+.agenda-item:hover { transform: translateY(-2px); border-color: rgba(232,113,74,0.3); }
+.anum {
+  width: 34px; height: 34px; min-width: 34px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 12px; color: white;
+}
+.agenda-item h4 { font-size: 14px; font-weight: 700; color: white; margin-bottom: 4px; }
+.agenda-item p { font-size: 12px; color: var(--mid); line-height: 1.5; }
+.agenda-panel { display: none; }
+.agenda-panel.active { display: block; }
+
+/* ─────────────────────────────────────────
+   SLIDE 3 — COMPANY
+───────────────────────────────────────── */
+.stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 22px; }
+.stat-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px; padding: 24px 20px;
+  transition: all 0.3s; cursor: default;
+}
+.stat-card:hover { border-color: rgba(232,113,74,0.35); background: rgba(232,113,74,0.04); }
+.stat-n { font-size: 36px; font-weight: 800; color: var(--orange); letter-spacing: -2px; line-height: 1; margin-bottom: 6px; }
+.stat-l { font-size: 12px; color: var(--mid); line-height: 1.4; }
+.tagline-bar {
+  background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+  border-radius: 14px; padding: 20px 28px; margin-bottom: 18px;
+}
+.tagline-bar p { font-size: 18px; font-weight: 700; color: white; letter-spacing: -0.3px; }
+.tagline-bar span { font-size: 12px; color: rgba(255,255,255,0.6); display: block; margin-top: 4px; }
+.info-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px; padding: 20px 24px;
+  font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.7;
+}
+.info-box strong { color: rgba(255,255,255,0.8); font-weight: 600; }
+
+/* ─────────────────────────────────────────
+   SLIDE 4 — PRODUCT
+───────────────────────────────────────── */
+.product-layout {
+  display: grid; grid-template-columns: 1fr 1.5fr;
+  gap: 32px; align-items: start;
+  width: 100%; max-width: 1100px; padding: 52px 72px;
+}
+.module-tabs { display: flex; flex-direction: column; gap: 10px; }
+.module-tab {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 20px; border-radius: 14px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.04);
+  border: 1.5px solid rgba(255,255,255,0.07);
+  transition: all 0.3s;
+}
+.module-tab:hover { border-color: var(--orange); }
+.module-tab.active { background: var(--orange); border-color: var(--orange); }
+.mnum {
+  width: 34px; height: 34px; min-width: 34px;
+  border-radius: 50%; background: rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 12px; color: white;
+  transition: background 0.3s;
+}
+.module-tab.active .mnum { background: rgba(255,255,255,0.2); }
+.mname { font-size: 14px; font-weight: 700; color: white; }
+.module-detail { display: none; }
+.module-detail.active { display: block; animation: fadeUp 0.3s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.mcard {
+  border-radius: 22px; padding: 36px 32px;
+  position: relative; overflow: hidden;
+}
+.mcard::before {
+  content: ''; position: absolute;
+  width: 220px; height: 220px; border-radius: 50%;
+  top: -60px; right: -60px; opacity: 0.12;
+}
+.mc-0 { background: rgba(74,108,247,0.08); border: 1px solid rgba(74,108,247,0.2); }
+.mc-0::before { background: var(--blue); }
+.mc-1 { background: rgba(232,113,74,0.08); border: 1px solid rgba(232,113,74,0.2); }
+.mc-1::before { background: var(--orange); }
+.mc-2 { background: rgba(5,150,105,0.08); border: 1px solid rgba(5,150,105,0.2); }
+.mc-2::before { background: var(--green); }
+.mcard-title { font-size: 26px; font-weight: 800; color: white; letter-spacing: -1px; margin-bottom: 6px; position: relative; z-index: 1; }
+.mcard-sub { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; position: relative; z-index: 1; }
+.mcard-desc { font-size: 14px; color: var(--light); line-height: 1.7; margin-bottom: 24px; position: relative; z-index: 1; }
+.mfeatures { display: flex; flex-direction: column; gap: 9px; position: relative; z-index: 1; }
+.mfeature { display: flex; align-items: center; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.7); }
+.fdot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ─────────────────────────────────────────
+   SLIDE 5 — TEAM
+───────────────────────────────────────── */
+.team-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 28px; }
+.team-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px; padding: 22px 18px;
+  display: flex; align-items: center; gap: 14px;
+  cursor: default; transition: all 0.3s; position: relative; overflow: hidden;
+}
+.team-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.15); }
+.avatar {
+  width: 50px; height: 50px; min-width: 50px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 17px; color: white;
+}
+.tname { font-size: 15px; font-weight: 700; color: white; }
+.trole { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin: 3px 0; }
+.tdesc { font-size: 11px; color: rgba(255,255,255,0.35); }
+
+/* ─────────────────────────────────────────
+   SLIDE 6 — TOOLS
+───────────────────────────────────────── */
+.tools-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-top: 24px; }
+.tool-card {
+  background: rgba(255,255,255,0.04);
+  border: 1.5px solid rgba(255,255,255,0.07);
+  border-radius: 18px; padding: 24px 20px;
+  display: flex; gap: 18px;
+  transition: all 0.3s; cursor: default;
+}
+.tool-card:hover { border-color: var(--orange); transform: translateY(-2px); }
+.ticon {
+  width: 50px; height: 50px; min-width: 50px;
+  border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 14px; color: white;
+}
+.tool-card h4 { font-size: 15px; font-weight: 700; color: white; margin-bottom: 4px; }
+.ttag {
+  display: inline-block; font-size: 9px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 100px; margin-bottom: 8px;
+}
+.tr { background: rgba(232,113,74,0.15); color: var(--orange-light); }
+.to { background: rgba(123,92,240,0.15); color: #A78BFA; }
+.tdesc2 { font-size: 12px; color: var(--mid); line-height: 1.5; }
+.action-strip {
+  margin-top: 18px;
+  background: rgba(232,113,74,0.1);
+  border: 1px solid rgba(232,113,74,0.2);
+  border-radius: 12px; padding: 14px 20px;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: var(--orange-light);
+}
+.action-strip strong { color: white; }
+
+/* ─────────────────────────────────────────
+   SLIDE 7 — GHENT SURVIVAL
+───────────────────────────────────────── */
+.ghent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+.ghent-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px; padding: 24px 22px;
+  transition: all 0.3s;
+}
+.ghent-card:hover { border-color: rgba(232,113,74,0.3); transform: translateY(-2px); }
+.ghent-card-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+}
+.ghent-icon {
+  width: 42px; height: 42px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.ghent-card h3 { font-size: 15px; font-weight: 700; color: white; margin-bottom: 0; }
+.ghent-card p { font-size: 12px; color: var(--mid); line-height: 1.6; }
+.ghent-card .tip {
+  margin-top: 12px; padding: 10px 14px;
+  background: rgba(232,113,74,0.1);
+  border: 1px solid rgba(232,113,74,0.2);
+  border-radius: 10px;
+  font-size: 11px; color: var(--orange-light);
+}
+.ghent-card .tip strong { color: white; }
+
+/* ─────────────────────────────────────────
+   SLIDE 8 — DAY 2 BREAK
+───────────────────────────────────────── */
+.s-break { background: var(--dark); }
+.break-content { text-align: center; position: relative; z-index: 2; }
+.break-ring {
+  position: absolute; border-radius: 50%;
+  border: 1px solid rgba(232,113,74,0.1);
+  pointer-events: none;
+}
+.ghost-text {
+  position: absolute; font-size: clamp(100px,18vw,220px);
+  font-weight: 800; color: transparent;
+  -webkit-text-stroke: 1px rgba(232,113,74,0.15);
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+  white-space: nowrap; pointer-events: none; letter-spacing: -8px;
+}
+.break-label { font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+.break-title { font-size: clamp(38px,5.5vw,66px); font-weight: 800; color: white; letter-spacing: -3px; margin-bottom: 14px; }
+.break-sub { font-size: 15px; color: rgba(255,255,255,0.3); }
+
+/* ─────────────────────────────────────────
+   SLIDE 9 — STRATEGY
+───────────────────────────────────────── */
+.strategy-layout { display: grid; grid-template-columns: 1fr 1.6fr; gap: 22px; margin-top: 28px; }
+.big-metric {
+  background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+  border-radius: 22px; padding: 32px 24px;
+  position: relative; overflow: hidden;
+}
+.big-metric::before {
+  content: ''; position: absolute;
+  width: 180px; height: 180px; background: rgba(255,255,255,0.08);
+  border-radius: 50%; top: -50px; right: -50px;
+}
+.big-metric .bnum { font-size: 52px; font-weight: 800; color: white; letter-spacing: -3px; line-height: 1; position: relative; z-index: 1; }
+.big-metric .blbl { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 6px; position: relative; z-index: 1; }
+.big-metric .bgrow { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.2); font-size: 12px; color: rgba(255,255,255,0.6); position: relative; z-index: 1; }
+.big-metric .bgrow strong { color: white; }
+.geo-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 22px; padding: 24px 24px;
+}
+.geo-card h3 { font-size: 14px; font-weight: 700; color: white; margin-bottom: 18px; }
+.geo-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: transform 0.2s; cursor: default;
+}
+.geo-row:last-child { border-bottom: none; }
+.geo-row:hover { transform: translateX(4px); }
+.gdot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.gname { font-size: 13px; font-weight: 700; color: white; flex: 1; }
+.gnote { font-size: 11px; color: var(--mid); }
+.gbadge { font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 100px; background: var(--orange); color: white; }
+
+/* ─────────────────────────────────────────
+   SLIDE 10 — ICP
+───────────────────────────────────────── */
+.tier-selector { display: flex; gap: 10px; margin-bottom: 22px; }
+.tier-btn {
+  padding: 9px 22px; border-radius: 100px;
+  border: 1.5px solid rgba(255,255,255,0.1);
+  background: transparent; color: rgba(255,255,255,0.4);
+  font-weight: 700; font-size: 12px; cursor: pointer;
+  transition: all 0.3s;
+}
+.tier-btn:hover { border-color: rgba(255,255,255,0.25); color: white; }
+.tier-btn.active { background: var(--orange); border-color: var(--orange); color: white; }
+.tier-btn.t2.active { background: var(--blue); border-color: var(--blue); }
+.tier-btn.t3.active { background: var(--green); border-color: var(--green); }
+.tier-panel { display: none; }
+.tier-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; animation: fadeUp 0.35s ease; }
+.tier-main {
+  border-radius: 22px; padding: 28px 24px;
+  position: relative; overflow: hidden;
+}
+.tier-main::before { content: ''; position: absolute; width: 160px; height: 160px; border-radius: 50%; top: -40px; right: -40px; opacity: 0.1; }
+.tm-0 { background: rgba(232,113,74,0.08); border: 1px solid rgba(232,113,74,0.2); }
+.tm-0::before { background: var(--orange); }
+.tm-1 { background: rgba(74,108,247,0.08); border: 1px solid rgba(74,108,247,0.2); }
+.tm-1::before { background: var(--blue); }
+.tm-2 { background: rgba(5,150,105,0.08); border: 1px solid rgba(5,150,105,0.2); }
+.tm-2::before { background: var(--green); }
+.tbadge {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 14px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; margin-bottom: 18px; position: relative; z-index: 1;
+}
+.tacv { font-size: 42px; font-weight: 800; letter-spacing: -2px; line-height: 1; margin-bottom: 4px; position: relative; z-index: 1; }
+.tacv-lbl { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.35); margin-bottom: 20px; position: relative; z-index: 1; }
+.tstats { display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 1; }
+.tstat {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 12px; border-radius: 9px;
+  background: rgba(0,0,0,0.2);
+}
+.tstat-k { font-size: 10px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; }
+.tstat-v { font-size: 13px; font-weight: 700; color: white; }
+.tier-why {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 22px; padding: 24px 20px;
+}
+.tier-why h4 { font-size: 14px; font-weight: 700; color: white; margin-bottom: 16px; }
+.why-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.why-item:last-child { border-bottom: none; padding-bottom: 0; }
+.wdot { width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+.wtext { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+.wtext strong { color: rgba(255,255,255,0.8); font-weight: 600; }
+
+/* ─────────────────────────────────────────
+   SLIDE 11 — WAY OF WORKING
+───────────────────────────────────────── */
+.wow-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; margin-top: 24px; }
+.meetings-col {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px; padding: 24px 20px;
+}
+.meetings-col h3 { font-size: 13px; font-weight: 700; color: white; margin-bottom: 16px; }
+.meeting-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: transform 0.2s; cursor: default;
+}
+.meeting-row:last-child { border-bottom: none; }
+.meeting-row:hover { transform: translateX(4px); }
+.freq-pill {
+  font-size: 8px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; padding: 4px 9px; border-radius: 100px;
+  white-space: nowrap;
+}
+.meeting-info h5 { font-size: 12px; font-weight: 700; color: white; }
+.meeting-info p { font-size: 10px; color: var(--mid); margin-top: 2px; }
+.rules-col { display: flex; flex-direction: column; gap: 8px; }
+.rule-pill {
+  background: rgba(255,255,255,0.04);
+  border-radius: 12px; padding: 13px 16px;
+  display: flex; align-items: center; gap: 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: all 0.25s; cursor: default;
+}
+.rule-pill:hover { border-color: rgba(232,113,74,0.3); transform: translateX(3px); }
+.rule-bar { width: 3px; height: 28px; border-radius: 2px; flex-shrink: 0; }
+.rule-text { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.4; }
+.rule-text strong { color: white; font-weight: 700; }
+
+/* ─────────────────────────────────────────
+   SLIDE 12 — REAL TALK
+───────────────────────────────────────── */
+.realtalk-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-top: 28px; }
+.rt-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px; padding: 22px 20px;
+  display: flex; align-items: flex-start; gap: 16px;
+  transition: all 0.3s; cursor: default;
+}
+.rt-card:hover { border-color: rgba(232,113,74,0.25); transform: translateY(-2px); }
+.rt-num {
+  width: 36px; height: 36px; min-width: 36px;
+  border-radius: 50%; background: rgba(232,113,74,0.15);
+  border: 1px solid rgba(232,113,74,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 800; color: var(--orange);
+}
+.rt-card h4 { font-size: 14px; font-weight: 700; color: white; margin-bottom: 5px; }
+.rt-card p { font-size: 12px; color: var(--mid); line-height: 1.5; }
+
+/* ─────────────────────────────────────────
+   SLIDE 13 — ROLE & MISSIONS
+───────────────────────────────────────── */
+.role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 24px; }
+.role-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px; padding: 24px 20px;
+}
+.role-card-title {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 14px; font-weight: 700; color: white;
+  margin-bottom: 16px;
+}
+.role-card-title::before {
+  content: ''; display: block; width: 3px; height: 18px;
+  border-radius: 2px; background: var(--orange);
+}
+.mindset-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 13px; border-radius: 11px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  margin-bottom: 8px;
+  transition: border-color 0.2s;
+}
+.mindset-item:hover { border-color: rgba(232,113,74,0.25); }
+.mdot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.mtext { font-size: 12px; color: rgba(255,255,255,0.6); }
+.mtext strong { color: rgba(255,255,255,0.85); font-weight: 700; }
+.mission-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; border-radius: 11px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  margin-bottom: 7px;
+  transition: all 0.2s; cursor: default;
+}
+.mission-item:hover { border-color: rgba(74,108,247,0.25); transform: translateX(3px); }
+.mission-n {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(74,108,247,0.2); border: 1px solid rgba(74,108,247,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800; color: var(--blue); flex-shrink: 0;
+}
+.mission-t { font-size: 12px; color: rgba(255,255,255,0.6); }
+.mission-t strong { color: rgba(255,255,255,0.85); font-weight: 700; }
+.quote-full {
+  grid-column: 1/-1;
+  background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+  border-radius: 14px; padding: 18px 24px;
+  font-size: 14px; font-weight: 700; color: white;
+  text-align: center; font-style: italic; letter-spacing: -0.2px;
+}
+
+/* ─────────────────────────────────────────
+   SLIDE 14 — CLOSING
+───────────────────────────────────────── */
+.s-close { background: var(--dark); }
+.close-content { text-align: center; position: relative; z-index: 2; max-width: 680px; }
+.close-ring { position: absolute; border-radius: 50%; pointer-events: none; }
+.close-title { font-size: clamp(42px,6.5vw,82px); font-weight: 800; color: white; letter-spacing: -3px; line-height: 1.05; margin-bottom: 18px; }
+.close-title span { color: var(--orange); }
+.close-sub { font-size: 15px; color: rgba(255,255,255,0.38); margin-bottom: 16px; line-height: 1.6; }
+.close-quote {
+  font-size: 13px; color: rgba(255,255,255,0.3);
+  font-style: italic; margin-bottom: 36px;
+  border-left: 2px solid rgba(232,113,74,0.4);
+  padding-left: 16px; text-align: left; line-height: 1.6;
+}
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(232,113,74,0.4)} 50%{box-shadow:0 0 0 14px rgba(232,113,74,0)} }
+.restart-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--orange); color: white;
+  font-weight: 700; font-size: 14px; padding: 15px 30px;
+  border-radius: 100px; cursor: pointer; border: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: pulse 2.5s ease infinite; letter-spacing: -0.2px;
+}
+.restart-btn:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(232,113,74,0.3); }
+
+/* HOVER POPUP */
+.team-card{overflow:visible;position:relative}
+.hover-popup{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) scale(.95);background:#1A1A1A;border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;width:240px;opacity:0;pointer-events:none;transition:all .25s cubic-bezier(.4,0,.2,1);z-index:200;box-shadow:0 20px 40px rgba(0,0,0,.5)}
+.team-card:hover .hover-popup{opacity:1;pointer-events:all;transform:translateX(-50%) scale(1)}
+.hover-popup h4{font-size:13px;font-weight:700;color:white;margin-bottom:6px}
+.hover-popup p{font-size:11px;color:var(--mid);line-height:1.5}
+.hover-popup .htip{margin-top:10px;padding:8px 10px;background:rgba(232,113,74,.1);border:1px solid rgba(232,113,74,.2);border-radius:8px;font-size:10px;color:var(--orange-light)}
+/* CHECKLIST */
+.checklist{display:flex;flex-direction:column;gap:9px}
+.check-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;cursor:pointer;transition:all .3s;user-select:none}
+.check-item:hover{border-color:rgba(232,113,74,.3)}
+.check-item.done{background:rgba(5,150,105,.08);border-color:rgba(5,150,105,.3)}
+.check-box{width:20px;height:20px;min-width:20px;border-radius:50%;border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .3s}
+.check-item.done .check-box{background:var(--green);border-color:var(--green)}
+.check-label{font-size:12px;color:rgba(255,255,255,.7);transition:color .3s;flex:1}
+.check-item.done .check-label{color:rgba(255,255,255,.35);text-decoration:line-through}
+.cl-bar{height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;margin-top:12px}
+.cl-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--orange-light));border-radius:2px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.cl-lbl{font-size:10px;color:var(--mid);margin-top:6px}
+/* QUIZ */
+@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.quiz-wrap{max-width:680px;margin:0 auto}
+.q-prog-txt{font-size:11px;color:var(--mid);margin-bottom:6px}
+.q-bar{height:3px;background:rgba(255,255,255,.08);border-radius:2px;margin-bottom:26px;overflow:hidden}
+.q-bar-fill{height:100%;background:var(--orange);border-radius:2px;transition:width .4s}
+.q-block{animation:fadeUp .3s ease}
+.q-text{font-size:18px;font-weight:700;color:white;line-height:1.4;margin-bottom:20px;letter-spacing:-.5px}
+.answers{display:flex;flex-direction:column;gap:9px}
+.ans-btn{padding:13px 18px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:rgba(255,255,255,.75);font-size:13px;font-weight:500;text-align:left;cursor:pointer;transition:all .25s;font-family:'Trebuchet MS','Segoe UI',Arial,sans-serif}
+.ans-btn:hover:not(:disabled){border-color:var(--orange);color:white;background:rgba(232,113,74,.08)}
+.ans-btn.correct{background:rgba(5,150,105,.15);border-color:var(--green);color:white}
+.ans-btn.wrong{background:rgba(239,68,68,.12);border-color:#EF4444;color:rgba(255,255,255,.5)}
+.ans-btn:disabled{cursor:default}
+.q-feedback{margin-top:14px;padding:11px 15px;border-radius:10px;font-size:12px;line-height:1.5;animation:popIn .25s ease}
+.q-feedback.correct{background:rgba(5,150,105,.12);border:1px solid rgba(5,150,105,.3);color:#6EE7B7}
+.q-feedback.wrong{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#FCA5A5}
+.q-next{margin-top:16px;padding:10px 22px;border-radius:100px;background:var(--orange);color:white;font-weight:700;font-size:12px;border:none;cursor:pointer;transition:transform .2s;font-family:'Trebuchet MS','Segoe UI',Arial,sans-serif}
+.q-next:hover{transform:translateY(-2px)}
+.q-result{text-align:center;animation:popIn .3s ease}
+.q-score{font-size:64px;font-weight:800;color:var(--orange);letter-spacing:-3px;line-height:1;margin-bottom:6px}
+.q-score-lbl{font-size:13px;color:var(--mid);margin-bottom:18px}
+.q-msg{font-size:16px;font-weight:700;color:white;letter-spacing:-.5px;margin-bottom:22px;line-height:1.5}
+.q-restart{padding:11px 24px;border-radius:100px;background:rgba(255,255,255,.08);color:white;font-weight:700;font-size:12px;border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:all .2s;font-family:'Trebuchet MS','Segoe UI',Arial,sans-serif}
+.q-restart:hover{background:var(--orange);border-color:var(--orange)}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="key-hint">← →  navigate</div>
+
+<div class="slides-wrap" id="slidesWrap">
+
+<!-- ── S1: COVER ── -->
+<div class="slide s-cover active" id="slide-0">
+  <div class="orb" style="width:580px;height:580px;background:radial-gradient(circle,rgba(232,113,74,0.16) 0%,transparent 70%);top:-160px;right:-100px;animation:float1 8s ease-in-out infinite"></div>
+  <div class="orb" style="width:380px;height:380px;background:radial-gradient(circle,rgba(74,108,247,0.1) 0%,transparent 70%);bottom:-100px;left:-80px;animation:float1 11s ease-in-out infinite reverse"></div>
+  <div class="orb" style="width:180px;height:180px;border:1px solid rgba(232,113,74,0.12);top:55px;right:195px;animation:spin1 22s linear infinite"></div>
+  <style>
+    @keyframes float1 { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-18px) scale(1.04)} }
+    @keyframes spin1 { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  </style>
+  <div class="cover-content">
+    <div class="uman-logo">
+      <div class="logo-c">U</div>
+      <div class="logo-name">uman</div>
+    </div>
+    <div class="cover-tag">Intern Onboarding · 2026</div>
+    <h1 class="cover-title">Welcome to<br><span>Uman.ai.</span></h1>
+    <p class="cover-quote">"Nobody prepared me for what was coming when I started here. So what you're watching right now — this is everything I wish someone had told me on day one."</p>
+    <p class="cover-sub">Your complete survival guide. 14 slides. Everything you need to hit the ground running.</p>
+    <button class="btn-pill" onclick="nextSlide()">
+      Let's get started
+      <div class="arr">→</div>
+    </button>
+  </div>
+</div>
+
+<!-- ── S2: AGENDA ── -->
+<div class="slide" id="slide-1">
+  <div class="orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(232,113,74,0.1) 0%,transparent 70%);top:-120px;right:-80px"></div>
+  <div class="orb" style="width:300px;height:300px;background:radial-gradient(circle,rgba(74,108,247,0.08) 0%,transparent 70%);bottom:-80px;left:-60px"></div>
+  <div class="inner">
+    <div class="lbl">Your roadmap</div>
+    <h2 class="h1">What's ahead</h2>
+    <div class="day-tabs">
+      <button class="day-tab active" onclick="switchDay(0)">Day 1 — Understanding Uman</button>
+      <button class="day-tab" onclick="switchDay(1)">Day 2 — How We Work</button>
+    </div>
+    <div class="agenda-panel active" id="day-panel-0">
+      <div class="agenda-grid">
+        <div class="agenda-item"><div class="anum" style="background:#E8714A">01</div><div><h4>Company overview</h4><p>Who we are, where we come from, and what we're building</p></div></div>
+        <div class="agenda-item"><div class="anum" style="background:#4A6CF7">02</div><div><h4>Product deep-dive</h4><p>The 7 tools, how they connect, and why they exist</p></div></div>
+        <div class="agenda-item"><div class="anum" style="background:#059669">03</div><div><h4>Meet the team</h4><p>~20 people, real roles, who does what and who to go to</p></div></div>
+        <div class="agenda-item"><div class="anum" style="background:#7B5CF0">04</div><div><h4>Tools + Ghent survival</h4><p>HubSpot, Drive, Notion — and how not to get fined on day 1</p></div></div>
+      </div>
+    </div>
+    <div class="agenda-panel" id="day-panel-1">
+      <div class="agenda-grid">
+        <div class="agenda-item"><div class="anum" style="background:#E8714A">01</div><div><h4>Commercial strategy</h4><p>2026 targets, geographic focus, and how we plan to win</p></div></div>
+        <div class="agenda-item"><div class="anum" style="background:#7B5CF0">02</div><div><h4>Who we sell to (ICP)</h4><p>Tier 1–3, criteria, and why bigger = better for uman</p></div></div>
+        <div class="agenda-item"><div class="anum" style="background:#059669">03</div><div><h4>Way of working</h4><p>Meetings, rules, rhythms — how this team actually operates</p></div></div>
+        <div class="agenda-item"><div class="anum" style="background:#4A6CF7">04</div><div><h4>Real talk + your missions</h4><p>The honest stuff nobody puts in the handbook</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── S3: COMPANY ── -->
+<div class="slide" id="slide-2">
+  <div class="orb" style="width:450px;height:450px;background:radial-gradient(circle,rgba(232,113,74,0.12) 0%,transparent 70%);top:-100px;right:-60px"></div>
+  <div class="orb" style="width:280px;height:280px;background:radial-gradient(circle,rgba(123,92,240,0.1) 0%,transparent 70%);bottom:-60px;left:40px"></div>
+  <div class="inner">
+    <div class="lbl">Day 1 · Company</div>
+    <h2 class="h1">Who is <span>Uman.ai?</span></h2>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-n">~20</div><div class="stat-l">People in the team<br>You have a real place here</div></div>
+      <div class="stat-card"><div class="stat-n">58%</div><div class="stat-l">ARR growth in 2025<br>€500k → €788k</div></div>
+      <div class="stat-card"><div class="stat-n">€2M+</div><div class="stat-l">ARR target for 2026<br>On track for 100%+ growth</div></div>
+    </div>
+    <div class="tagline-bar">
+      <p>"Prep like a machine, sell like a human"</p>
+      <span>AI-powered tools that help B2B sales teams work faster, smarter, and with less manual prep</span>
+    </div>
+    <div class="info-box">
+      Uman.ai is a <strong>Belgian B2B SaaS startup based in Ghent</strong>. They build AI tools for sales teams — helping salespeople prepare meetings, find prospects, and manage clients without wasting hours on manual research. It's not a giant corporation, but it's not three guys in a garage either. <strong>What you do here actually gets noticed.</strong> This is not a photocopy internship.
+    </div>
+  </div>
+</div>
+
+<!-- ── S4: PRODUCT ── -->
+<div class="slide" id="slide-3">
+  <div class="orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(74,108,247,0.1) 0%,transparent 70%);top:-80px;right:-40px"></div>
+  <div class="product-layout">
+    <div>
+      <div class="lbl">Day 1 · Product</div>
+      <h2 class="h1" style="font-size:clamp(26px,3vw,38px);margin-bottom:20px">The 7 Tools</h2>
+      <div class="module-tabs">
+        <div class="module-tab active" onclick="switchModule(0)"><div class="mnum">01</div><div class="mname">Prospecting side</div></div>
+        <div class="module-tab" onclick="switchModule(1)"><div class="mnum">02</div><div class="mname">Deal Execution</div></div>
+        <div class="module-tab" onclick="switchModule(2)"><div class="mnum">03</div><div class="mname">Account Management</div></div>
+      </div>
+      <div style="margin-top:18px;display:flex;gap:8px;flex-wrap:wrap">
+        <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px 11px;font-size:11px;color:var(--mid)">Salesforce</span>
+        <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px 11px;font-size:11px;color:var(--mid)">HubSpot</span>
+        <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px 11px;font-size:11px;color:var(--mid)">SAP CRM</span>
+        <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px 11px;font-size:11px;color:var(--mid)">Copilot</span>
+      </div>
+    </div>
+    <div>
+      <div class="module-detail active" id="module-0">
+        <div class="mcard mc-0">
+          <div class="mcard-title">Prospecting Tools</div>
+          <div class="mcard-sub" style="color:var(--blue)">Prospect · Signal Opportunities · Outreach</div>
+          <div class="mcard-desc">Three tools that cover the full top-of-funnel. Find the right accounts, spot the perfect moment to reach out, and contact your prospects — all in one flow.</div>
+          <div class="mfeatures">
+            <div class="mfeature"><div class="fdot" style="background:var(--blue)"></div>Prospect — find and target potential clients</div>
+            <div class="mfeature"><div class="fdot" style="background:var(--blue)"></div>Signal Opportunities — spot the right moment to reach out</div>
+            <div class="mfeature"><div class="fdot" style="background:var(--blue)"></div>Outreach — contact prospects with personalized content</div>
+          </div>
+        </div>
+      </div>
+      <div class="module-detail" id="module-1">
+        <div class="mcard mc-1">
+          <div class="mcard-title">Deal Execution</div>
+          <div class="mcard-sub" style="color:var(--orange)">Sales Meeting · Deals</div>
+          <div class="mcard-desc">Prepare every client meeting perfectly and manage your deals from first contact to close — with AI handling the research, notes, and follow-ups automatically.</div>
+          <div class="mfeatures">
+            <div class="mfeature"><div class="fdot" style="background:var(--orange)"></div>Sales Meeting — prep, transcribe, and follow up on meetings</div>
+            <div class="mfeature"><div class="fdot" style="background:var(--orange)"></div>Deals — track and manage all your ongoing negotiations</div>
+            <div class="mfeature"><div class="fdot" style="background:var(--orange)"></div>CRM auto-update after every interaction</div>
+          </div>
+        </div>
+      </div>
+      <div class="module-detail" id="module-2">
+        <div class="mcard mc-2">
+          <div class="mcard-title">Account Management</div>
+          <div class="mcard-sub" style="color:var(--green)">Customers · Portfolio</div>
+          <div class="mcard-desc">Everything about managing your existing clients and keeping a global view of your entire portfolio — spotting cross-sell opportunities before they disappear.</div>
+          <div class="mfeatures">
+            <div class="mfeature"><div class="fdot" style="background:var(--green)"></div>Customers — manage relationships and track key accounts</div>
+            <div class="mfeature"><div class="fdot" style="background:var(--green)"></div>Portfolio — global overview of all your activity</div>
+            <div class="mfeature"><div class="fdot" style="background:var(--green)"></div>Automated QBR prep and cross-sell detection</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── S5: TEAM ── -->
+<div class="slide" id="slide-4">
+  <div class="orb" style="width:420px;height:420px;background:radial-gradient(circle,rgba(232,113,74,0.1) 0%,transparent 70%);top:-100px;right:-50px"></div>
+  <div class="inner">
+    <div class="lbl">Day 1 · People</div>
+    <h2 class="h1">Meet the Team</h2>
+    <p style="font-size:11px;color:var(--mid);margin-top:-20px;margin-bottom:14px">Hover over a card to learn more</p>
+    <div class="team-grid">
+
+      <div class="team-card">
+        <div class="avatar" style="background:#2A2A2A;border:2px solid rgba(255,255,255,0.15)">C</div>
+        <div><div class="tname">Charles</div><div class="trole" style="color:rgba(255,255,255,0.35)">CEO</div><div class="tdesc">Vision & leadership</div></div>
+        <div class="hover-popup"><h4>Charles — CEO</h4><p>The founder and visionary behind uman. He defines the overall strategic direction and drives the company forward.</p><div class="htip">Key figure for big product and business decisions.</div></div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar" style="background:var(--orange)">S</div>
+        <div><div class="tname">Sam</div><div class="trole" style="color:var(--orange)">CCO</div><div class="tdesc">Your main point of contact</div></div>
+        <div class="hover-popup"><h4>Sam — CCO (Chief Commercial Officer)</h4><p>He oversees the entire commercial side of uman. He assigned this internship and will likely be your main day-to-day contact.</p><div class="htip">Go to him if you have questions about your missions or direction. He's accessible — don't wait.</div></div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar" style="background:var(--blue)">C</div>
+        <div><div class="tname">Carlo</div><div class="trole" style="color:var(--blue)">Growth Marketing</div><div class="tdesc">Brand, content & campaigns</div></div>
+        <div class="hover-popup"><h4>Carlo — Growth Marketing</h4><p>Handles everything brand, content, and campaigns. Easy to work with, knows what he wants.</p><div class="htip">If your internship touches marketing or content, he's your direct ally.</div></div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar" style="background:var(--green)">C</div>
+        <div><div class="tname">Charlotte</div><div class="trole" style="color:var(--green)">Customer Success</div><div class="tdesc">Client onboarding & retention</div></div>
+        <div class="hover-popup"><h4>Charlotte — Customer Success</h4><p>She manages the onboarding of new clients and ensures they adopt uman deeply over time.</p><div class="htip">To understand how uman is experienced from the client side, talk to her.</div></div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar" style="background:var(--orange)">G</div>
+        <div><div class="tname">Gilles</div><div class="trole" style="color:var(--orange)">AE — Tier 1 POD</div><div class="tdesc">Account Executive, top segment</div></div>
+        <div class="hover-popup"><h4>Gilles — Account Executive</h4><p>He manages deals with the biggest accounts (Tier 1). Leads demos and negotiations on the top segment.</p><div class="htip">Shadow one of his demos if you want to see uman in action in a real commercial context.</div></div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar" style="background:var(--orange-dark)">T</div>
+        <div><div class="tname">Thomas</div><div class="trole" style="color:var(--orange)">SDR — Tier 1 POD</div><div class="tdesc">Sales Dev Rep, top segment</div></div>
+        <div class="hover-popup"><h4>Thomas — SDR Tier 1</h4><p>Handles prospecting and lead generation on the Tier 1 segment. His role: fill Gilles' pipeline.</p><div class="htip">Great person to understand how outbound prospecting works at uman.</div></div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar" style="background:var(--purple)">E</div>
+        <div><div class="tname">Edgard</div><div class="trole" style="color:var(--purple)">SDR — Tier 2 POD</div><div class="tdesc">Sales Dev Rep, mid segment</div></div>
+        <div class="hover-popup"><h4>Edgard — SDR Tier 2</h4><p>Same role as Thomas but on the mid-market segment (Tier 2). Prospects companies between €30M and €100M revenue.</p><div class="htip">The team is small — knowing everyone makes everything easier.</div></div>
+      </div>
+
+    </div>
+    <div style="margin-top:14px;padding:12px 18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:11px;font-size:11px;color:var(--mid);line-height:1.6">
+      The team is <strong style="color:rgba(255,255,255,0.7)">small enough that your work is visible</strong>. Introduce yourself to everyone from day one — don't just stick to the people you're assigned to.
+    </div>
+  </div>
+</div>
+
+<!-- ── S6: TOOLS ── -->
+<div class="slide" id="slide-5">
+  <div class="orb" style="width:380px;height:380px;background:radial-gradient(circle,rgba(123,92,240,0.1) 0%,transparent 70%);top:-80px;right:-40px"></div>
+  <div class="inner">
+    <div class="lbl">Day 1 · Setup</div>
+    <h2 class="h1">Tools Setup</h2>
+    <div class="tools-grid">
+      <div class="tool-card"><div class="ticon" style="background:#E8714A">HS</div><div><h4>HubSpot</h4><span class="ttag tr">Required · CRM</span><p class="tdesc2">Master of all data. Every company, deal, and contact lives here. If it's not in HubSpot, it doesn't exist. Keep it clean — always.</p></div></div>
+      <div class="tool-card"><div class="ticon" style="background:#4A6CF7">GD</div><div><h4>Google Drive</h4><span class="ttag tr">Required · Docs</span><p class="tdesc2">All sales materials, onboarding docs, and reporting. Organized by Tier and function — know where everything lives from day one.</p></div></div>
+      <div class="tool-card"><div class="ticon" style="background:#2A2A2A;border:1px solid rgba(255,255,255,0.1)">N</div><div><h4>Notion</h4><span class="ttag to">Recommended · Notes</span><p class="tdesc2">Personal notes, to-do lists, and internal knowledge. Great for staying organized day to day without cluttering HubSpot.</p></div></div>
+      <div class="tool-card"><div class="ticon" style="background:linear-gradient(135deg,#E8714A,#C45A32)">U</div><div><h4>uman</h4><span class="ttag tr">Required · Platform</span><p class="tdesc2">Use the product like the sales team does. The best way to understand what you're working on is to actually use it every day.</p></div></div>
+    </div>
+    <div class="action-strip">
+      <span>✓</span>
+      <p><strong>Action today:</strong> request all tool accesses from your manager — don't leave Day 1 without them set up.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── S7: GHENT SURVIVAL ── -->
+<div class="slide" id="slide-6">
+  <div class="orb" style="width:420px;height:420px;background:radial-gradient(circle,rgba(232,113,74,0.1) 0%,transparent 70%);bottom:-100px;right:-60px"></div>
+  <div class="inner">
+    <div class="lbl">Day 1 · Practical</div>
+    <h2 class="h1">Ghent <span>Survival Guide</span></h2>
+    <div class="ghent-grid">
+      <div class="ghent-card">
+        <div class="ghent-card-header">
+          <div class="ghent-icon" style="background:rgba(232,113,74,0.15)">🚗</div>
+          <h3>The Low Emission Zone (LEZ)</h3>
+        </div>
+        <p>If you're coming by car, you need to register your license plate <strong style="color:white">BEFORE</strong> you drive into the city. Otherwise you'll get an automatic fine — and that's not the best way to start your internship.</p>
+        <div class="tip"><strong>How to register:</strong> Go to <strong>stad.gent/lez</strong> — takes 5 minutes. Do it before your first day, not after.</div>
+      </div>
+      <div class="ghent-card">
+        <div class="ghent-card-header">
+          <div class="ghent-icon" style="background:rgba(74,108,247,0.15)">🏠</div>
+          <h3>Housing</h3>
+        </div>
+        <p>Start looking <strong style="color:white">early. Really early.</strong> Ghent fills up fast, especially for short-term rentals. Waiting until the last minute means you'll end up on Airbnb paying way too much.</p>
+        <div class="tip" style="border-color:rgba(74,108,247,0.3);background:rgba(74,108,247,0.08);color:#8BA3FF"><strong style="color:white">Good platforms:</strong> ColocHousing, Wing Upkot, ikot.be — start there before anything else.</div>
+      </div>
+      <div class="ghent-card">
+        <div class="ghent-card-header">
+          <div class="ghent-icon" style="background:rgba(5,150,105,0.15)">🍺</div>
+          <h3>After Work</h3>
+        </div>
+        <p>Ghent is a great city. Good food, good bars, good people. The old town is worth exploring. And if you like Belgian beer — you are <strong style="color:white">in the right place</strong>.</p>
+        <div class="tip" style="border-color:rgba(5,150,105,0.3);background:rgba(5,150,105,0.08);color:#6EE7B7"><strong style="color:white">Tip:</strong> Don't just go home after work. The city is part of the experience — enjoy it.</div>
+      </div>
+      <div class="ghent-card">
+        <div class="ghent-card-header">
+          <div class="ghent-icon" style="background:rgba(245,158,11,0.15)">🚲</div>
+          <h3>Getting Around</h3>
+        </div>
+        <p>Ghent is very <strong style="color:white">bike-friendly</strong>. Most people cycle everywhere. Public transport works well too. The city center is compact — you won't need a car for day-to-day life once you're set up.</p>
+        <div class="tip" style="border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.08);color:#FCD34D"><strong style="color:white">Blue-bike</strong> shared bikes are available everywhere — cheap and convenient for the first days.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── S8: DAY 2 BREAK ── -->
+<div class="slide s-break" id="slide-7">
+  <div class="ghost-text">DAY 2</div>
+  <div class="break-ring" style="width:580px;height:580px;top:50%;left:50%;transform:translate(-50%,-50%);animation:spin1 35s linear infinite"></div>
+  <div class="break-ring" style="width:400px;height:400px;top:50%;left:50%;transform:translate(-50%,-50%);border-color:rgba(232,113,74,0.07);animation:spin1 22s linear infinite reverse"></div>
+  <div class="break-content">
+    <div class="break-label">Day 2</div>
+    <h2 class="break-title">How We Work<br>& Your Role</h2>
+    <p class="break-sub">Strategy · ICP · Working Rhythms · Real Talk · Your Missions</p>
+  </div>
+</div>
+
+<!-- ── S9: STRATEGY ── -->
+<div class="slide" id="slide-8">
+  <div class="orb" style="width:420px;height:420px;background:radial-gradient(circle,rgba(232,113,74,0.12) 0%,transparent 70%);top:-100px;left:-60px"></div>
+  <div class="inner">
+    <div class="lbl">Day 2 · Strategy</div>
+    <h2 class="h1">2026 Strategy</h2>
+    <div class="strategy-layout">
+      <div class="big-metric">
+        <div class="bnum">€2M+</div>
+        <div class="blbl">ARR Target 2026</div>
+        <div class="bgrow">From <strong>€788k in 2025</strong> — that's 100%+ growth</div>
+      </div>
+      <div class="geo-card">
+        <h3>Geographic Focus</h3>
+        <div class="geo-row"><div class="gdot" style="background:var(--orange)"></div><div class="gname">Belgium & Netherlands</div><span class="gbadge">Primary</span></div>
+        <div class="geo-row"><div class="gdot" style="background:var(--blue)"></div><div class="gname">France</div><div class="gnote">Partner: Halifax · Target: €200k ARR</div></div>
+        <div class="geo-row"><div class="gdot" style="background:var(--green)"></div><div class="gname">Spain</div><div class="gnote">Partner: Krama · Target: €200k ARR</div></div>
+        <div class="geo-row"><div class="gdot" style="background:var(--purple)"></div><div class="gname">Nordics</div><div class="gnote">Led by Sam · Target: €200k ARR</div></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px">
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:center">
+        <div style="font-size:28px;font-weight:800;color:var(--orange);letter-spacing:-1px">8</div>
+        <div style="font-size:11px;color:var(--mid)">SQOs per month<br>per POD</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:center">
+        <div style="font-size:28px;font-weight:800;color:var(--orange);letter-spacing:-1px">12</div>
+        <div style="font-size:11px;color:var(--mid)">New clients/year<br>per POD</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:center">
+        <div style="font-size:28px;font-weight:800;color:var(--orange);letter-spacing:-1px">115%</div>
+        <div style="font-size:11px;color:var(--mid)">Retention<br>target</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── S10: ICP ── -->
+<div class="slide" id="slide-9">
+  <div class="orb" style="width:420px;height:420px;background:radial-gradient(circle,rgba(232,113,74,0.1) 0%,transparent 70%);top:-90px;right:-50px"></div>
+  <div class="inner">
+    <div class="lbl">Day 2 · ICP</div>
+    <h2 class="h1">Who We Sell To</h2>
+    <div class="tier-selector">
+      <button class="tier-btn active" onclick="switchTier(0)">Tier 1 — High Priority</button>
+      <button class="tier-btn t2" onclick="switchTier(1)">Tier 2 — Medium</button>
+      <button class="tier-btn t3" onclick="switchTier(2)">Tier 3 — Inbound</button>
+    </div>
+    <div class="tier-panel active" id="tier-0">
+      <div class="tier-main tm-0">
+        <div class="tbadge" style="background:rgba(232,113,74,0.15);color:var(--orange-light)"><div style="width:6px;height:6px;border-radius:50%;background:var(--orange)"></div>Tier 1 · High Priority</div>
+        <div class="tacv" style="color:var(--orange)">€60k</div>
+        <div class="tacv-lbl">Target ACV</div>
+        <div class="tstats">
+          <div class="tstat"><span class="tstat-k">Revenue</span><span class="tstat-v">€100M+</span></div>
+          <div class="tstat"><span class="tstat-k">Sales Reps</span><span class="tstat-v">50+</span></div>
+          <div class="tstat"><span class="tstat-k">Approach</span><span class="tstat-v">Outbound</span></div>
+        </div>
+      </div>
+      <div class="tier-why">
+        <h4>Why Tier 1?</h4>
+        <div class="why-item"><div class="wdot" style="background:var(--orange)"></div><div class="wtext"><strong>Greater impact</strong> — broader portfolios and larger sales teams = higher ROI from uman</div></div>
+        <div class="why-item"><div class="wdot" style="background:var(--orange)"></div><div class="wtext"><strong>Higher willingness to pay</strong> — they see strategic value and have the budget for it</div></div>
+        <div class="why-item"><div class="wdot" style="background:var(--orange)"></div><div class="wtext"><strong>Better fit</strong> — uman's end-to-end workflows are built for multi-product complexity</div></div>
+        <div class="why-item"><div class="wdot" style="background:var(--orange)"></div><div class="wtext">Examples: <strong>Proximus, Randstad, PwC, msg global</strong></div></div>
+      </div>
+    </div>
+    <div class="tier-panel" id="tier-1">
+      <div class="tier-main tm-1">
+        <div class="tbadge" style="background:rgba(74,108,247,0.15);color:#8BA3FF"><div style="width:6px;height:6px;border-radius:50%;background:var(--blue)"></div>Tier 2 · Medium Priority</div>
+        <div class="tacv" style="color:var(--blue)">€45k</div>
+        <div class="tacv-lbl">Target ACV</div>
+        <div class="tstats">
+          <div class="tstat"><span class="tstat-k">Revenue</span><span class="tstat-v">€30M+</span></div>
+          <div class="tstat"><span class="tstat-k">Sales Reps</span><span class="tstat-v">20–50</span></div>
+          <div class="tstat"><span class="tstat-k">Approach</span><span class="tstat-v">Outbound</span></div>
+        </div>
+      </div>
+      <div class="tier-why">
+        <h4>Why Tier 2?</h4>
+        <div class="why-item"><div class="wdot" style="background:var(--blue)"></div><div class="wtext"><strong>Mid-market sweet spot</strong> — enough complexity to need uman, enough budget to buy it</div></div>
+        <div class="why-item"><div class="wdot" style="background:var(--blue)"></div><div class="wtext"><strong>Growing segment</strong> — companies actively scaling their sales operations</div></div>
+        <div class="why-item"><div class="wdot" style="background:var(--blue)"></div><div class="wtext">Examples: <strong>Codit, Flexso, Ingenium</strong></div></div>
+      </div>
+    </div>
+    <div class="tier-panel" id="tier-2">
+      <div class="tier-main tm-2">
+        <div class="tbadge" style="background:rgba(5,150,105,0.15);color:#6EE7B7"><div style="width:6px;height:6px;border-radius:50%;background:var(--green)"></div>Tier 3 · Inbound Only</div>
+        <div class="tacv" style="color:var(--green)">~€17k</div>
+        <div class="tacv-lbl">Average ACV</div>
+        <div class="tstats">
+          <div class="tstat"><span class="tstat-k">Revenue</span><span class="tstat-v">€10M–30M</span></div>
+          <div class="tstat"><span class="tstat-k">Sales Reps</span><span class="tstat-v">7–20</span></div>
+          <div class="tstat"><span class="tstat-k">Approach</span><span class="tstat-v">Inbound only</span></div>
+        </div>
+      </div>
+      <div class="tier-why">
+        <h4>About Tier 3</h4>
+        <div class="why-item"><div class="wdot" style="background:var(--green)"></div><div class="wtext"><strong>Not primary focus in 2026</strong> — equally long sales cycle but lower conversion rate</div></div>
+        <div class="why-item"><div class="wdot" style="background:var(--green)"></div><div class="wtext"><strong>Inbound only</strong> — we respond when they come to us, we don't chase them</div></div>
+        <div class="why-item"><div class="wdot" style="background:var(--green)"></div><div class="wtext">Smaller companies tend to <strong>push back on price</strong> — harder ROI to demonstrate clearly</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── S11: WAY OF WORKING ── -->
+<div class="slide" id="slide-10">
+  <div class="orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(74,108,247,0.1) 0%,transparent 70%);bottom:-80px;left:-50px"></div>
+  <div class="inner">
+    <div class="lbl">Day 2 · Working Together</div>
+    <h2 class="h1">How We Work</h2>
+    <div class="wow-grid">
+      <div class="meetings-col">
+        <h3>Meeting Cadence</h3>
+        <div class="meeting-row"><span class="freq-pill" style="background:rgba(232,113,74,0.15);color:var(--orange-light)">Weekly</span><div class="meeting-info"><h5>Pipeline Review</h5><p>Monday 9:00–9:45 & 10:00–10:45</p></div></div>
+        <div class="meeting-row"><span class="freq-pill" style="background:rgba(232,113,74,0.15);color:var(--orange-light)">Weekly</span><div class="meeting-info"><h5>Commercial Team Update</h5><p>Monday 12:00–13:00</p></div></div>
+        <div class="meeting-row"><span class="freq-pill" style="background:rgba(74,108,247,0.15);color:#8BA3FF">Monthly</span><div class="meeting-info"><h5>KPI Deep-Dive</h5><p>1st week of the month</p></div></div>
+        <div class="meeting-row"><span class="freq-pill" style="background:rgba(74,108,247,0.15);color:#8BA3FF">Monthly</span><div class="meeting-info"><h5>1-on-1 with Manager</h5><p>3rd week of the month</p></div></div>
+        <div class="meeting-row"><span class="freq-pill" style="background:rgba(5,150,105,0.15);color:#6EE7B7">Quarterly</span><div class="meeting-info"><h5>Quarter Review</h5><p>End of Q1 & Q3</p></div></div>
+      </div>
+      <div class="rules-col">
+        <div class="rule-pill"><div class="rule-bar" style="background:var(--orange)"></div><div class="rule-text"><strong>Inbound leads</strong> — respond within 2 hours, always</div></div>
+        <div class="rule-pill"><div class="rule-bar" style="background:var(--orange)"></div><div class="rule-text"><strong>HubSpot</strong> — keep data clean and up to date at all times</div></div>
+        <div class="rule-pill"><div class="rule-bar" style="background:var(--blue)"></div><div class="rule-text"><strong>Next step is key</strong> — always plan it and note it down</div></div>
+        <div class="rule-pill"><div class="rule-bar" style="background:var(--blue)"></div><div class="rule-text"><strong>2 days/week</strong> minimum in the office</div></div>
+        <div class="rule-pill"><div class="rule-bar" style="background:var(--purple)"></div><div class="rule-text"><strong>LinkedIn</strong> — post at least 2x/month about uman</div></div>
+        <div class="rule-pill"><div class="rule-bar" style="background:var(--green)"></div><div class="rule-text"><strong>Honesty & respect</strong> — non-negotiable here</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── S12: REAL TALK ── -->
+<div class="slide" id="slide-11">
+  <div class="orb" style="width:420px;height:420px;background:radial-gradient(circle,rgba(232,113,74,0.1) 0%,transparent 70%);top:-100px;right:-60px"></div>
+  <div class="inner">
+    <div class="lbl">Day 2 · The honest stuff</div>
+    <h2 class="h1">Real <span>Talk</span></h2>
+    <div class="realtalk-grid">
+      <div class="rt-card"><div class="rt-num">1</div><div><h4>Take notes from day one</h4><p>You'll forget everything otherwise. The product, the names, the processes — write it all down. There's no shame in it, there's only efficiency.</p></div></div>
+      <div class="rt-card"><div class="rt-num">2</div><div><h4>Ask questions early</h4><p>If you're unsure about a task, just ask. Don't wait until you've spent 3 hours going in the wrong direction. The team is approachable — use that.</p></div></div>
+      <div class="rt-card"><div class="rt-num">3</div><div><h4>Your work is visible</h4><p>In a team this size, what you do gets noticed — good and bad. Show up, give your best, and take ownership of your projects from start to finish.</p></div></div>
+      <div class="rt-card"><div class="rt-num">4</div><div><h4>Use uman yourself</h4><p>Don't just read about the product — use it. The best way to understand what you're working on is to actually experience it like a sales rep would.</p></div></div>
+      <div class="rt-card"><div class="rt-num">5</div><div><h4>Think about the company</h4><p>Not just your task. Every decision should be: is this good for uman? That mindset is what separates a good intern from a great one here.</p></div></div>
+      <div class="rt-card"><div class="rt-num">6</div><div><h4>Introduce yourself to everyone</h4><p>Don't stick only to the people you're assigned to. In a small team, knowing everyone makes everything easier — and more fun.</p></div></div>
+      <div class="rt-card"><div class="rt-num" style="background:rgba(232,113,74,0.2);border-color:rgba(232,113,74,0.4)">★</div><div><h4>Sam is your main point of reference</h4><p>He oversees the commercial side and assigned this internship. If you're unsure about your direction or priorities, go see him — don't wait until the end of the week.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── S13: ROLE & MISSIONS ── -->
+<div class="slide" id="slide-12">
+  <div class="orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(74,108,247,0.1) 0%,transparent 70%);bottom:-80px;right:-50px"></div>
+  <div class="inner">
+    <div class="lbl">Day 2 · Your Role</div>
+    <h2 class="h1">Your Role & <span>First Missions</span></h2>
+    <div class="role-grid">
+      <div class="role-card">
+        <div class="role-card-title">Expected Mindset</div>
+        <div class="mindset-item"><div class="mdot" style="background:var(--orange)"></div><div class="mtext"><strong>Curious</strong> — explore, ask questions, understand deeply</div></div>
+        <div class="mindset-item"><div class="mdot" style="background:var(--blue)"></div><div class="mtext"><strong>Proactive</strong> — don't wait to be told, take initiative</div></div>
+        <div class="mindset-item"><div class="mdot" style="background:var(--green)"></div><div class="mtext"><strong>Commercial</strong> — think about impact and value creation</div></div>
+        <div class="mindset-item"><div class="mdot" style="background:var(--purple)"></div><div class="mtext"><strong>Team player</strong> — share, support, collaborate openly</div></div>
+        <div class="mindset-item"><div class="mdot" style="background:var(--yellow)"></div><div class="mtext"><strong>Growth mindset</strong> — welcome feedback, iterate fast</div></div>
+      </div>
+      <div class="role-card">
+        <div class="role-card-title" style="--orange:var(--blue)">First Missions — Checklist</div>
+        <p style="font-size:10px;color:var(--mid);margin-bottom:10px">Click to check off ✓</p>
+        <div class="checklist" id="checklist">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">Set up all tools and get your accesses on Day 1</div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">Explore uman as if you were a sales rep</div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">Shadow a demo or client meeting</div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">Get briefed by Sam on your main project</div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">Introduce yourself to every person on the team</div></div>
+        </div>
+        <div class="cl-bar"><div class="cl-fill" id="clFill" style="width:0%"></div></div>
+        <div class="cl-lbl" id="clLbl">0 / 5 missions completed</div>
+      </div>
+      <div class="quote-full">"Ask early, not late. Be honest. Take ownership. Enjoy Ghent. And please — register your car in the LEZ before day one."</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── S14: QUIZ ── -->
+<div class="slide" id="slide-13">
+  <div class="orb" style="width:420px;height:420px;background:radial-gradient(circle,rgba(123,92,240,0.1) 0%,transparent 70%);top:-100px;right:-60px"></div>
+  <div class="orb" style="width:280px;height:280px;background:radial-gradient(circle,rgba(232,113,74,0.08) 0%,transparent 70%);bottom:-60px;left:-40px"></div>
+  <div class="inner" style="display:flex;flex-direction:column;justify-content:center">
+    <div class="lbl">Test your knowledge</div>
+    <h2 class="h1" style="margin-bottom:22px">Uman <span>Quiz</span></h2>
+    <div class="quiz-wrap">
+      <div id="quiz-game">
+        <div class="q-prog-txt" id="q-prog">Question 1 / 6</div>
+        <div class="q-bar"><div class="q-bar-fill" id="q-bar-fill" style="width:0%"></div></div>
+        <div class="q-block" id="q-block"></div>
+      </div>
+      <div id="quiz-result" style="display:none" class="q-result">
+        <div class="q-score" id="q-score"></div>
+        <div class="q-score-lbl">correct answers out of 6</div>
+        <div class="q-msg" id="q-msg"></div>
+        <button class="q-restart" onclick="restartQuiz()">Restart quiz</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── S15: CLOSING ── -->
+<div class="slide s-close" id="slide-14">
+  <div class="close-ring" style="width:680px;height:680px;top:50%;left:50%;transform:translate(-50%,-50%);border:1px solid rgba(232,113,74,0.07);animation:spin1 42s linear infinite"></div>
+  <div class="close-ring" style="width:460px;height:460px;top:50%;left:50%;transform:translate(-50%,-50%);border:1px solid rgba(232,113,74,0.1);animation:spin1 28s linear infinite reverse"></div>
+  <div class="close-content">
+    <div class="logo-c" style="width:52px;height:52px;font-size:20px;margin:0 auto 26px">U</div>
+    <h2 class="close-title">Welcome <span>aboard.</span><br>Go build something.</h2>
+    <p class="close-sub">You now have everything you need to get started.<br>The team is here for you — and so is Sam.</p>
+    <div class="close-quote">"The rest you'll figure out on your own — and honestly, that's the best part of this internship. Good luck, enjoy the ride."</div>
+    <button class="restart-btn" onclick="goToSlide(0)">
+      Start over ↺
+    </button>
+  </div>
+</div>
+
+</div><!-- end slides-wrap -->
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nav-btn" onclick="prevSlide()">←</button>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="slide-counter" id="slideCounter">1 / 15</div>
+  <button class="nav-btn" onclick="nextSlide()">→</button>
+</nav>
+
+<script>
+const TOTAL = 15;
+let current = 0, transitioning = false;
+
+const dotsWrap = document.getElementById('navDots');
+for (let i = 0; i < TOTAL; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goToSlide(i);
+  dotsWrap.appendChild(d);
+}
+
+function updateUI() {
+  document.getElementById('progress').style.width = ((current + 1) / TOTAL * 100) + '%';
+  document.getElementById('slideCounter').textContent = (current + 1) + ' / ' + TOTAL;
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+}
+
+function goToSlide(n) {
+  if (transitioning || n === current) return;
+  transitioning = true;
+  const prev = document.getElementById('slide-' + current);
+  const next = document.getElementById('slide-' + n);
+  prev.classList.add('exit');
+  prev.classList.remove('active');
+  setTimeout(() => {
+    prev.classList.remove('exit');
+    next.classList.add('active');
+    current = n;
+    updateUI();
+    setTimeout(() => { transitioning = false; }, 600);
+  }, 280);
+}
+
+// CHECKLIST
+function toggleCheck(el) {
+  el.classList.toggle('done');
+  el.querySelector('.check-box').textContent = el.classList.contains('done') ? '\u2713' : '';
+  const all = document.querySelectorAll('.check-item').length;
+  const done = document.querySelectorAll('.check-item.done').length;
+  document.getElementById('clFill').style.width = (done/all*100)+'%';
+  document.getElementById('clLbl').textContent = done+' / '+all+' missions completed';
+}
+
+// QUIZ
+const questions = [
+  {q:"What is uman.ai's tagline?",answers:["Work smart, not hard","Prep like a machine, sell like a human","AI for everyone","Sell faster, close better"],correct:1,fb:"Exactly! Prep like a machine, sell like a human — that's the whole spirit of uman."},
+  {q:"How many tools does the uman platform include?",answers:["3 tools","5 tools","7 tools","10 tools"],correct:2,fb:"7 tools: Prospect, Signal Opportunities, Outreach, Sales Meeting, Deals, Customers, and Portfolio."},
+  {q:"Who is the CCO of uman and your main point of contact?",answers:["Charles","Carlo","Sam","Charlotte"],correct:2,fb:"Sam is the CCO (Chief Commercial Officer). He oversees the commercial side and assigned this internship."},
+  {q:"What is uman's ARR target for 2026?",answers:["500k","1M+","2M+","5M+"],correct:2,fb:"2M+ is the target for 2026, up from 788k in 2025 — that's 100%+ growth."},
+  {q:"What is the maximum time to respond to an inbound lead?",answers:["24 hours","1 hour","2 hours","Same day"],correct:2,fb:"2 hours max. It's a non-negotiable rule at uman — responsiveness is key in B2B."},
+  {q:"If you come to Ghent by car, what must you do BEFORE entering the city?",answers:["Nothing, it's free","Pay a parking fee","Register your plate in the LEZ","Request city permission"],correct:2,fb:"The LEZ (Low Emission Zone) — register your plate at stad.gent/lez before entering. Otherwise: automatic fine."}
+];
+let qIdx=0,qScore=0,qAnswered=false;
+function renderQ(){
+  const q=questions[qIdx];
+  qAnswered=false;
+  document.getElementById('q-prog').textContent='Question '+(qIdx+1)+' / '+questions.length;
+  document.getElementById('q-bar-fill').style.width=(qIdx/questions.length*100)+'%';
+  let html='<div class="q-text">'+q.q+'</div><div class="answers">';
+  q.answers.forEach(function(a,i){ html+='<button class="ans-btn" onclick="selectAns(this,'+i+')">'+a+'</button>'; });
+  html+='</div><div id="q-fb" style="display:none"></div><div id="q-next-wrap"></div>';
+  document.getElementById('q-block').innerHTML=html;
+}
+function selectAns(btn,idx){
+  if(qAnswered)return;
+  qAnswered=true;
+  const q=questions[qIdx];
+  document.querySelectorAll('.ans-btn').forEach(function(b){b.disabled=true;});
+  if(idx===q.correct){btn.classList.add('correct');qScore++;}
+  else{btn.classList.add('wrong');document.querySelectorAll('.ans-btn')[q.correct].classList.add('correct');}
+  var fb=document.getElementById('q-fb');
+  fb.style.display='block';
+  fb.className='q-feedback '+(idx===q.correct?'correct':'wrong');
+  fb.textContent=q.fb;
+  document.getElementById('q-next-wrap').innerHTML='<button class="q-next" onclick="nextQ()">'+(qIdx<questions.length-1?'Next question &rarr;':'See my results &rarr;')+'</button>';
+}
+function nextQ(){qIdx++;if(qIdx<questions.length)renderQ();else showResult();}
+function showResult(){
+  document.getElementById('quiz-game').style.display='none';
+  document.getElementById('quiz-result').style.display='block';
+  document.getElementById('q-score').textContent=qScore+'/'+questions.length;
+  var p=qScore/questions.length;
+  var msg=p===1?'Perfect! You are ready to start at uman. Welcome to the team!':p>=.7?'Great job! You have the basics — the rest will come fast on the ground.':p>=.5?'Not bad! Review a few slides and you will be on top of it.':'A few things to brush up on — but that is exactly what this presentation is for!';
+  document.getElementById('q-msg').textContent=msg;
+}
+function restartQuiz(){
+  qIdx=0;qScore=0;qAnswered=false;
+  document.getElementById('quiz-game').style.display='block';
+  document.getElementById('quiz-result').style.display='none';
+  renderQ();
+}
+renderQ();
+
+function nextSlide() { goToSlide(Math.min(current + 1, TOTAL - 1)); }
+function prevSlide() { goToSlide(Math.max(current - 1, 0)); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+});
+
+let touchX = 0;
+document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const dx = touchX - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 50) dx > 0 ? nextSlide() : prevSlide();
+});
+
+function switchDay(n) {
+  document.querySelectorAll('.day-tab').forEach((t, i) => t.classList.toggle('active', i === n));
+  document.querySelectorAll('.agenda-panel').forEach((p, i) => p.classList.toggle('active', i === n));
+}
+
+function switchModule(n) {
+  document.querySelectorAll('.module-tab').forEach((t, i) => t.classList.toggle('active', i === n));
+  document.querySelectorAll('.module-detail').forEach((d, i) => {
+    d.style.display = i === n ? 'block' : 'none';
+    if (i === n) d.classList.add('active'); else d.classList.remove('active');
+  });
+}
+
+function switchTier(n) {
+  document.querySelectorAll('.tier-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+  document.querySelectorAll('.tier-panel').forEach((p, i) => p.classList.toggle('active', i === n));
+}
+
+updateUI();
+</script>
+</body>
+</html>
